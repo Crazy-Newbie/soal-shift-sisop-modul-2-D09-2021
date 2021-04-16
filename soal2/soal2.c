@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <stdlib.h>
 
 int main()
 {
@@ -11,8 +12,8 @@ int main()
     }
 
     if(pid1 == 0){
-        char *argv[] = {"unzip", "pets.zip", NULL};
-        execv("home/ezhie/praktikum_2/soal2/petshop/unzip", argv);
+        char *argv[] = {"unzip", "pets.zip", "-d", "/home/ezhie/praktikum_2/soal2", NULL};
+        execv("/usr/bin/unzip", argv);
     }
 
     return 0;
