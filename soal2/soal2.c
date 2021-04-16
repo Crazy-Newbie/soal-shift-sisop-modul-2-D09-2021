@@ -12,9 +12,9 @@ int main()
 
     if(pid1 == 0){
         char *argv[] = {"unzip", "pets.zip", NULL};
-        execv("/ezhie/bin/unzip", argv);
+        execv("home/ezhie/praktikum_2/soal2/petshop/unzip", argv);
     }
-    
+
     return 0;
 
 }
