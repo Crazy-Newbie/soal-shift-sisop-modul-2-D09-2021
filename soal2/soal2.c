@@ -37,25 +37,25 @@ int main()
             char *argv[] = {"unzip", "pets.zip", "*.jpg", "-d", location, NULL};
             execv("/usr/bin/unzip", argv);
         }
-        else
-        {
-            while((wait(&status)) > 0);
-            pid3 = fork();
-            if(pid3 == 0)
-            {
-                while ((dp = readdir(dir)) != NULL)
-                {
-                    if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
-                    {
-                        char token[100] = " ";
-                        strcpy(token, dp->d_name);
-                        char pfolderp[100] = "/home/ezhie/modul2/petshop";
+        // else
+        // {
+        //     while((wait(&status)) > 0);
+        //     pid3 = fork();
+        //     if(pid3 == 0)
+        //     {
+        //         while ((dp = readdir(dir)) != NULL)
+        //         {
+        //             if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
+        //             {
+        //                 char token[100] = " ";
+        //                 strcpy(token, dp->d_name);
+        //                 char pfolderp[100] = "/home/ezhie/modul2/petshop";
 
 
-                    }
-                }
-            }
-        }
+        //             }
+        //         }
+        //     }
+        // }
     }
     
     
