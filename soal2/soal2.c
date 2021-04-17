@@ -7,11 +7,11 @@
 #include <dirent.h>
 
 char location[] = "/home/ezhie/modul2/petshop";
-
+int status;
 
 int main()
 {
-    pid_t pid1,pid2;
+    pid_t pid1,pid2,pid3;
 
     if(pid1 < 0){
        return EXIT_FAILURE;
