@@ -31,6 +31,16 @@ int main()
             char *argv[] = {"unzip", "pets.zip", "-d", location, NULL};
             execv("/usr/bin/unzip", argv);
         }
+        else
+        {
+            while((wait(&status)) > 0);
+            pid3 = fork();
+            if(pid3 == 0)
+            {
+                char *argv[] = {"rm", "-rf", "!", "-name", "'*.jpg'", location, NULL};
+                execv("/bin/rm", argv);
+            }
+        }
         
         
     }
