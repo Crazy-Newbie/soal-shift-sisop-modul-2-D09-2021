@@ -59,7 +59,7 @@ int main()
     
     pid1 = fork();
     if(pid1 == 0){
-        char *argv[] = {"mkdir", "-p", "-d", location, NULL};
+        char *argv[] = {"mkdir", "-p", location, NULL};
         execv("/bin/mkdir", argv);
     }
     else
