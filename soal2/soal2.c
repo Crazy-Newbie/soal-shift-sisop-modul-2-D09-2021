@@ -12,7 +12,6 @@ struct dirent *dp;
 
 
 void listFilesRecursively(char *Path){
-  int status;
   char path[1000];
   pid_t pid3;
   DIR *dir = opendir(Path);
@@ -23,8 +22,7 @@ void listFilesRecursively(char *Path){
   while ((dp = readdir(dir)) != NULL){
 	if(strcmp(dp->d_name,".") != 0 && strcmp(dp->d_name,"..") != 0){
     
-  	//2B
-  	//We need to split the file's name using delimiter
+  	//2b
   	char token[100]= "";
   	strcpy(token,dp->d_name);
   	char pfolder[100] = "/home/ezhie/modul2/petshop/";
@@ -39,13 +37,6 @@ void listFilesRecursively(char *Path){
     	((wait(&status))>0);
   	}
  	 
-  	//2C
-  	//Move each picture to the right folder
-  	//char mfolder[100] = "/home/frozz/modul2/petshop";
-  	//strcat(mfolder,dp->d_name);
-  	//char petfile[100] = "";
-  	//strcpy(petfile
- 	 
   	strcpy(path,Path);
   	strcpy(path,"/");
   	strcat(path,dp->d_name);
@@ -55,7 +46,7 @@ void listFilesRecursively(char *Path){
   }	 
  
   closedir(dir);  
-} 	
+} 	 
 
 
 int main()
