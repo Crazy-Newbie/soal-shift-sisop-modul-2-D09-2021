@@ -11,29 +11,29 @@ char location[] = "/home/ezhie/modul2/petshop";
 
 int main()
 {
-    // pid_t pid1,pid2;
+    pid_t pid1,pid2;
 
-    // if(pid1 < 0){
-    //    return EXIT_FAILURE;
-    // }
-    
-    // pid1 = fork();
-    if(fork() == 0){
-        char *argv[] = {"mkdir", "-p", "-d", location, NULL};
-        execv("/usr/bin/mkdir", argv);
+    if(pid1 < 0){
+       return EXIT_FAILURE;
     }
-    // else
-    // {
-    //     while((wait(&status)) > 0);
-    //     pid2 = fork();
-    //     if (pid2 == 0)
-    //     {
-    //         char *argv[] = {"unzip", "pets.zip", "-d", location, NULL};
-    //         execv("/usr/bin/unzip", argv);
-    //     }
+    
+    pid1 = fork();
+    if(pid1 == 0){
+        char *argv[] = {"mkdir", "-p", "-d", location, NULL};
+        execv("/bin/mkdir", argv);
+    }
+    else
+    {
+        while((wait(&status)) > 0);
+        pid2 = fork();
+        if (pid2 == 0)
+        {
+            char *argv[] = {"unzip", "pets.zip", "-d", location, NULL};
+            execv("/usr/bin/unzip", argv);
+        }
         
         
-    // }
+    }
 
     return 0;
 
