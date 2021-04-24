@@ -112,14 +112,14 @@ int main() {
     else if(id1==0 && id2>0 && id3>0){
         while ((wait(&status)) > 0);//tunggu buat status.txt first,baru isi
         caesarcipher(statusdl,5);    
-        char *echoargv[] = {"echo",statusdl, ">" , statuspath};
+        char *echoargv[] = {"echo",statusdl, ">" , statuspath,NULL};
         execv("usr/bin/echo",echoargv);
     }
     
     else if(id1>0 && id2==0 && id3==0){
         while ((wait(&status)) > 0); //tunggu semua selesai, baru zip dan delete direktori
         sprintf(zipname, "%s.zip", dirname);
-        char *zipargv[] = {"zip", "-rm",zipname, dirpath};
+        char *zipargv[] = {"zip", "-rm",zipname, dirpath,NULL};
         execv("/usr/bin/zip", zipargv);
     }
     
