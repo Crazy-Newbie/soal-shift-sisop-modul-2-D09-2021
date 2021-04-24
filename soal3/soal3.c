@@ -28,7 +28,7 @@ void caesarcipher(char* rawstr,int key){
     }
 }
 
-int main() {
+int main(char* argv, int argc) {
   pid_t pid, sid;        
 
   pid = fork();    
@@ -57,6 +57,15 @@ int main() {
   close(STDOUT_FILENO);
   close(STDERR_FILENO);
   
+  //3D dan 3E buat program bash script killer
+  FILE* killer= fopen("killer.sh", "w");
+  fprintf(killer,"#!/bin/bash\n if(strcmp(argv[1],'-z')==0)\n\tkillall soal3\nelse\n\tPID=$(pidof soal3)\n\tkill -9 $PID");
+  fclose(killer);
+  
+  if(pid==0){
+    char* modargv[]= {"chmod", "+x", "killer.sh", NULL};
+    execv("/bin/chmod", modargv);
+  }
   
   while (1) {
     int status,status2;
