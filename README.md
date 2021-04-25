@@ -106,15 +106,6 @@ while ((dp=readdir(dir)) !=NULL){
 ```
 
 # 2c
-Diminta untuk memindahkan tiap file yang ada ke dalam folder yang sudah dibuat berdasarkan dengan hewan yang sesuai dengan foldernya. Diawali dengn menginisiasikan dua char yang menyimpan alamat.
-
-```
-char mfolder[100] = "/home/ezhie/modul2/petshop/";
-strcat(mfolder, dp->d_name);
-```
-`mfolder` ini berfungsi untuk menyimpan alamat direktori petshop, ditambah dengan nama folder untuk tiap hewan yang baru saja dibuat.
-
-
 
 # 2d
 
@@ -123,3 +114,69 @@ strcat(mfolder, dp->d_name);
 # Kendala 
 1. Pada saat di nomor 2b program tidak berjalan di ubuntu saya tetapi di ubuntu orang lain bisa dan itu membuat saya tidak bisa cek apakah kodingan saya benar benar bisa atau tidak dan inilah yang membuat saya butuh bantuan teman saya untuk menjalankan program saya.
 2. Program yang dijalankan terdapat error Segmentation fault (core dumped) dikarenakan pada kendala nomor satu di ubuntu saya
+
+# Soal 3
+Fork id1, id2, dan id3 untuk membuat child proses sebanyak 4  kali.
+## 3.a
+Buat nama direktori dan pathnya terlebih dahulu, menggunakan command; 
+```
+	strftime(dirname,100,"%Y-%m-%d_%X", localtime(&rawtime));
+	sprintf(dirpath, "/home/rizaldinur/%s",dirname)
+```
+Kemudian manfaatkan fork untuk child yang paling awal, yakni `if(id1==0 && id2==0 && id3==0)` , lalu buat directory dengan command; 
+```
+	char *dirargv[] = {"mkdir", "-p",  dirpath, NULL};
+	execv("/bin/mkdir",dirargv);  
+```
+
+## 3.b
+Proses child selanjutnya, setelah menggunakan system call `wait()` untuk menunggu proses membuat directory selesai, lakukan download gambar dari url yang telah diberikan sebanyak 10 kali, dengan nama sesuai timestamp, dan tiap iterasi download dengan interval 5 detik. 
+Buat nama file dan pathnya dulu dengan command ; 
+```
+	strftime(filename,100,"%Y-%m-%d_%X", localtime(&rawtime));
+        sprintf(filepath, "%s/%s.jpg",dirpath,filename);
+```
+Tentukan ukuran foto sesuai epoch unix dan perhitungan di soal dengan command ; 
+```
+	size = (int)time(NULL);
+        size=(size%1000)+50;
+```
+Perjelas url yang akan didownload, dengan menambahkan size dari foto di url;
+```
+	sprintf(url, "https://picsum.photos/%d", size);
+```
+Kemudian lakukan download gambar dengan command `wget`, sesuai dengan filepath yang telah dibuat;
+```
+	char *dlargv[] = {"wget", url,"-O", filepath, NULL};
+        execv("/usr/bin/wget", dlargv);
+```
+## 3.c
+Proses child selanjutnya, buat file `status.txt1` yang berisi status download yang telah di shift sejauh lima huruf menggunakan kode caesar cipher; 
+```
+	 else if(id1==0 && id2>0 && id3==0){
+		while ((wait(&status)) > 0);
+		FILE *dlog = fopen(statuspath, "w");
+		caesarcipher(statusdl,5);
+		fprintf(dlog,"%s", statusdl);
+		fclose(dlog);
+	 }
+```
+Kemudian setelah membuat file download status, lakukan zip pada direktori dan delete direktori tersebut, menggunakan command `-rm`, spesifiknya adlaah ; 
+```
+	else if(id1==0 && id2>0 && id3>0){
+		while ((wait(&status)) > 0); //tunggu semua selesai, baru zip dan delete direktori
+		sprintf(zipname, "%s.zip", dirname);
+		char *zipargv[] = {"zip", "-rm",zipname, dirname,NULL};
+		execv("/usr/bin/zip", zipargv);
+    	}
+```
+
+Program utama diakhiri dengan command `sleep(40)` supaya program dieksekusi setiap interval 40 detik.
+
+## 3.c dan 3.e
+Membuat file bash script `killer.sh` untuk "membunuh" proses di atas, yakni dengan ; 
+```
+	 FILE* killer= fopen("killer.sh", "w");
+	 fprintf(killer,"#!/bin/bash\nif [ \"$ARGV[1]\" = \"-z\" ];then\n\tkillall soal3\nelse\n\tPID=$(pidof soal3)\n\tkill -9 $PID\nfi");
+	 fclose(killer);
+```
