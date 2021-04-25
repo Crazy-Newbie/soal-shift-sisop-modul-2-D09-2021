@@ -173,7 +173,7 @@ Kemudian setelah membuat file download status, lakukan zip pada direktori dan de
 
 Program utama diakhiri dengan command `sleep(40)` supaya program dieksekusi setiap interval 40 detik.
 
-## 3.c dan 3.e
+## 3.d dan 3.e
 Membuat file bash script `killer.sh` untuk "membunuh" proses di atas, yakni dengan ; 
 ```
 	 FILE* killer= fopen("killer.sh", "w");
