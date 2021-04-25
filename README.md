@@ -204,6 +204,18 @@ Inisiasi dulu check = 2, lalu lakukan perulangan. Setiap kali program menemukan 
 Dan untuk yang terakhir, jika sudah menemui akhiran ".jpg", maka print tahun : pada akhir txt. Jika semua kondisi ini belum terpenuhi, maka print nama hewan dan data lainnya ke keterangan.txt hingga perulangan telah selesai.
 
 
+Output : 
+
+![1](https://user-images.githubusercontent.com/55473294/115998303-3942bb80-a619-11eb-9a2e-41c86c438f2d.jpg)
+
+
+![2](https://user-images.githubusercontent.com/55473294/115998308-3e076f80-a619-11eb-9776-c7f1732e4037.jpg)
+
+
+![3](https://user-images.githubusercontent.com/55473294/115998309-4069c980-a619-11eb-9b9d-3aed14bed37f.jpg)
+
+
+
 # Kendala 
 1. Pada saat di nomor 2b program tidak berjalan di ubuntu saya tetapi di ubuntu orang lain bisa dan itu membuat saya tidak bisa cek apakah kodingan saya benar benar bisa atau tidak dan inilah yang membuat saya butuh bantuan teman saya untuk menjalankan program saya.
 2. Program yang dijalankan terdapat error Segmentation fault (core dumped) dikarenakan pada kendala nomor satu di ubuntu saya
