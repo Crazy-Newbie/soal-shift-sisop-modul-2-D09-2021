@@ -65,3 +65,15 @@ pid1 = fork();
     }
 ```
 
+Setelah itu dilakukan mengextract file `pets.zip` tersebut yang diawali dengan melakukan fork untuk `pid2` dan `execv`. Karena folder tidak dibutuhkan, di dalam command `execv` semua yang di extract adalah isi konten dari `pets.zip` yang file nya adalah tipe `.jpg`. 
+
+```
+pid2 = fork();
+        if (pid2 == 0)
+        {
+            char *argv[] = {"unzip", "pets.zip", "*.jpg", "-d", location, NULL};
+            execv("/usr/bin/unzip", argv);
+        }
+```
+
+
