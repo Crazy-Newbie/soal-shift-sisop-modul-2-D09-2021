@@ -106,6 +106,15 @@ while ((dp=readdir(dir)) !=NULL){
 ```
 
 # 2c
+Diminta untuk memindahkan tiap file yang ada ke dalam folder yang sudah dibuat berdasarkan dengan hewan yang sesuai dengan foldernya. Diawali dengn menginisiasikan dua char yang menyimpan alamat.
+
+```
+char mfolder[100] = "/home/ezhie/modul2/petshop/";
+strcat(mfolder, dp->d_name);
+```
+`mfolder` ini berfungsi untuk menyimpan alamat direktori petshop, ditambah dengan nama folder untuk tiap hewan yang baru saja dibuat.
+
+
 
 # 2d
 
