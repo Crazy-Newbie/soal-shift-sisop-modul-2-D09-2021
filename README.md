@@ -105,3 +105,12 @@ while ((dp=readdir(dir)) !=NULL){
         ...
 ```
 
+# 2c
+
+# 2d
+
+# 2e
+
+# Kendala 
+1. Pada saat di nomor 2b program tidak berjalan di ubuntu saya tetapi di ubuntu orang lain bisa dan itu membuat saya tidak bisa cek apakah kodingan saya benar benar bisa atau tidak dan inilah yang membuat saya butuh bantuan teman saya untuk menjalankan program saya.
+2. Program yang dijalankan terdapat error Segmentation fault (core dumped) dikarenakan pada kendala nomor satu di ubuntu saya
