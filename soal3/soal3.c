@@ -29,39 +29,11 @@ void caesarcipher(char* rawstr,int key){
 }
 
 int main() {
-  /*pid_t pid, sid;        
-
-  pid = fork();    
-
-  if (pid < 0) {
-    exit(EXIT_FAILURE);
-  }
-
-
-  if (pid > 0) {
-    exit(EXIT_SUCCESS);
-  }
-
-  umask(0);
-
-  sid = setsid();
-  if (sid < 0) {
-    exit(EXIT_FAILURE);
-  }
-
-  if ((chdir("/")) < 0) {
-    exit(EXIT_FAILURE);
-  }
-
-  close(STDIN_FILENO);
-  close(STDOUT_FILENO);
-  close(STDERR_FILENO);
-  */
-  
   //3D buat program bash script killer
   FILE* killer= fopen("killer.sh", "w");
-  fprintf(killer,"#!/bin/bash\n if(strcmp(argv[1],'-z')==0)\n\tkillall soal3\nelse\n\tPID=$(pidof soal3)\n\tkill -9 $PID");
+  fprintf(killer,"#!/bin/bash\nif [ \"$ARGV[1]\" = \"-z\" ];then\n\tkillall soal3\nelse\n\tPID=$(pidof soal3)\n\tkill -9 $PID\nfi");
   fclose(killer);
+  
   
   if(fork()==0){
     char* modargv[]= {"chmod", "+x", "killer.sh", NULL};
