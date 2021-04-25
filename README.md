@@ -50,3 +50,18 @@ void unzip(){
 }
 ```
 # Soal 2
+Soal nomor 2 ini diminta untuk mengkategorikan foto-foto peliharaan dari file ZIP yang diberikan untuk membantu Loba. Pengerjaan untuk soal ini menggunakan `fork` dan `exec`. 
+
+# 2a
+Diminta untuk mengextract File yang ada di `pets.zip`, dan di dalam file zip tersebut terdapat folder yang tidak diperlukan dan perlu dihapus. File yang ada di zip tersebut disimpan ke `/home/user/modul2/petshop`. 
+
+Program ini diawali dengan pembuatan folder yang akan disimpan setelah mengextract file zip tersebut ke dalam lokasi yang telah di tentukan `/home/user/modul2/petshop`. Program akan berjalan setelah `pid1` ini melakukan `fork` dan `execv`. Perintah `execv` menggunakan `mkdir` untuk pembuatan folder tersebut. Folder tersebut dialokasikan di dalam `char location[] = "/home/user/modul2/petshop"`, dan dipanggil kedalam `execv` tersebut.
+
+```
+pid1 = fork();
+    if(pid1 == 0){
+        char *argv[] = {"mkdir", "-p", location, NULL};
+        execv("/bin/mkdir", argv);
+    }
+```
+
