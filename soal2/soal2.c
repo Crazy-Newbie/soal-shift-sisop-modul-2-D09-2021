@@ -16,10 +16,11 @@ void listFilesRecursively(char *Path){
   pid_t pid3, pid4, pid5, pid6;
   DIR *dir = opendir(Path);
   struct dirent *dp;
+  File *pointer
  
   if(!dir) return;
  
-  while ((dp = readdir(dir)) ! =NULL){
+  while ((dp=readdir(dir)) !=NULL){
 	if(strcmp(dp->d_name,".") != 0 && strcmp(dp->d_name,"..") != 0)
     {
     
@@ -36,20 +37,21 @@ void listFilesRecursively(char *Path){
         }
         else{
             ((wait(&status))>0);
-        }
+        }   
         
         //2c
+        char newfile[100] = "/home/ezhie/modul2/petshop/";
         char movefl[100] = "/home/ezhie/modul2/petshop/";
         strcat(movefl, dp->d_name);
         char filename[50] = "";
         strcpy(filename, dp->d_name);
-        char s1[1] = ";";
-        char s2[1] = "_";
-        char s3[1] = ".j";
+        char s1[1]=";";
+        char s2[1]="_";
+        char s3[1]=".j";
 
         pid4 = fork();
 
-        if(!(strstr(dp->dp_name, deli2)))
+        if(!(strstr(dp->d_name, deli2)))
         {
             
             if (pid4 == 0)
