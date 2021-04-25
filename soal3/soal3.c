@@ -28,8 +28,8 @@ void caesarcipher(char* rawstr,int key){
     }
 }
 
-int main(char* argv, int argc) {
-  pid_t pid, sid;        
+int main() {
+  /*pid_t pid, sid;        
 
   pid = fork();    
 
@@ -56,13 +56,14 @@ int main(char* argv, int argc) {
   close(STDIN_FILENO);
   close(STDOUT_FILENO);
   close(STDERR_FILENO);
+  */
   
-  //3D dan 3E buat program bash script killer
+  //3D buat program bash script killer
   FILE* killer= fopen("killer.sh", "w");
   fprintf(killer,"#!/bin/bash\n if(strcmp(argv[1],'-z')==0)\n\tkillall soal3\nelse\n\tPID=$(pidof soal3)\n\tkill -9 $PID");
   fclose(killer);
   
-  if(pid==0){
+  if(fork()==0){
     char* modargv[]= {"chmod", "+x", "killer.sh", NULL};
     execv("/bin/chmod", modargv);
   }
@@ -85,11 +86,11 @@ int main(char* argv, int argc) {
     char statuspath[250];
     char statusdl[] = "Download Success";
     char zipname[120];
-    
+    time(&rawtime);
+    strftime(dirname,100,"%Y-%m-%d_%X", localtime(&rawtime));
+    sprintf(dirpath, "/home/rizaldinur/%s",dirname);
+    sprintf(statuspath, "%s/status.txt",dirpath);
     if(id1==0 && id2==0 && id3==0){
-        time(&rawtime);
-        strftime(dirname,100,"%Y-%m-%d_%X", localtime(&rawtime));
-        sprintf(dirpath, "~/Soal3/%s",dirname);
         char *dirargv[] = {"mkdir", "-p",  dirpath, NULL};
         execv("/bin/mkdir",dirargv);  
     }
@@ -104,31 +105,23 @@ int main(char* argv, int argc) {
             size = (int)time(NULL);
             size=(size%1000)+50;
             sprintf(url, "https://picsum.photos/%d", size);
-            char *dlargv[] = {"wget","-O", filepath, url, NULL};
+            char *dlargv[] = {"wget", url,"-O", filepath, NULL};
             execv("/usr/bin/wget", dlargv);
             
             sleep(5);
         }
     }
-    
-    else if(id1==0 && id2>0 && id3==0){
-        while ((wait(&status)) > 0);//tunggu download selesai baru status txt
-        sprintf(statuspath, "%s/status.txt",dirpath);
-        char *txtargv[] = {"touch",statuspath,NULL };
-        execv("/usr/bin/touch", txtargv);
+    else if(id1==0 && id2>0 && id3==0){//3C. status txt, cipher ,zip
+        while ((wait(&status)) > 0);
+        FILE *dlog = fopen(statuspath, "w");
+        caesarcipher(statusdl,5);
+        fprintf(dlog,"%s", statusdl);
+        fclose(dlog);
     }
-    //3C. status txt, cipher ,zip
     else if(id1==0 && id2>0 && id3>0){
-        while ((wait(&status)) > 0);//tunggu buat status.txt first,baru isi
-        caesarcipher(statusdl,5);    
-        char *echoargv[] = {"echo",statusdl, ">" , statuspath,NULL};
-        execv("usr/bin/echo",echoargv);
-    }
-    
-    else if(id1>0 && id2==0 && id3==0){
         while ((wait(&status)) > 0); //tunggu semua selesai, baru zip dan delete direktori
         sprintf(zipname, "%s.zip", dirname);
-        char *zipargv[] = {"zip", "-rm",zipname, dirpath,NULL};
+        char *zipargv[] = {"zip", "-rm",zipname, dirname,NULL};
         execv("/usr/bin/zip", zipargv);
     }
     
