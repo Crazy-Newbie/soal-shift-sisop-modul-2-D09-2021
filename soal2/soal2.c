@@ -38,11 +38,6 @@ void listFilesRecursively(char *Path){
             ((wait(&status))>0);
         }
         
-        strcpy(path,Path);
-        strcpy(path,"/");
-        strcat(path,dp->d_name);
-        listFilesRecursively(path);
-
         //2c
         char movefl[100] = "/home/ezhie/modul2/petshop/";
         strcat(movefl, dp->d_name);
@@ -89,31 +84,31 @@ void listFilesRecursively(char *Path){
                         strncat(name,&filename[i],1);
                         continue;
                     }
-                    if(filename[i]==s3[0] && filename[i+1]==s3[1]){
+                    if(filename[i]==s3[0] && filename[i+1]==s3[1])
+                    {
                         fprintf(fptr, " tahun\n\n");
                         break;	
                     }
                     fprintf(fptr, "%c", filename[i]);
 
-            }
-            else
-            {
-                ((wait(&status))>0);
-                pid5 = fork();
-                strcpy(rename,newfile);
-                strcat(rename,"/");
-                strcat(rename,name);
-                strcat(rename,".jpg");
-                strcat(newfile,"/");
-                strcat(newfile, dp->d_name);
-                if (pid5 == 0)
-                {
-                    char *argv[] = {"mv",newfile,rename,NULL};
-                    execv("/bin/mv", argv);
                 }
-            }
+                else
+                {
+                    ((wait(&status))>0);
+                    pid5 = fork();
+                    strcpy(rename,newfile);
+                    strcat(rename,"/");
+                    strcat(rename,name);
+                    strcat(rename,".jpg");
+                    strcat(newfile,"/");
+                    strcat(newfile, dp->d_name);
+                    if (pid5 == 0)
+                    {
+                        char *argv[] = {"mv",newfile,rename,NULL};
+                        execv("/bin/mv", argv);
+                    }
+                }
             
-
         }
         else
         {
@@ -128,7 +123,7 @@ void listFilesRecursively(char *Path){
             {
                 for(i = 0; i < 50; i++)
                 {
-                    if (count == 2)
+                    if (count2 == 2)
                     {
                         if (filename[i]==s1[0])
                         {
@@ -138,7 +133,7 @@ void listFilesRecursively(char *Path){
                             strcat(cpyfile,temp);
                             char *argv6[] = {"mkdir","-p", cpyfile, NULL};
                             execv("/bin/mkdir", argv6);
-                            char *argv7[] = {"cp", mvfile, cpyfile, NULL};
+                            char *argv7[] = {"cp", movefl, cpyfile, NULL};
                             execv("/bin/cp", argv7);
                             char buatketerangan[50]="";
                             strcpy(buatketerangan,cpyfile);
@@ -151,14 +146,62 @@ void listFilesRecursively(char *Path){
                         continue;
 
                     }
+                    if (count2 == 1)
+                    {
+                        if(filename[i]==s1[0]){
+                            count2--;
+                            fprintf(fptr,"nama : %s\numur : ",temp);
+                            char rename2[100] = "";
+                            strcpy(rename2, cpyfile);
+                            strcat(rename2,"/");
+                            char now[100] = "";
+                            strcpy(now,rename2);
+                            strcat(rename2,temp);
+                            strcat(rename2, ".jpg");
+                            strcat(now,dp->d_name);
+                            char *argv11[] = {"mv", now, rename2, NULL};
+                            my_system("/bin/mv", argv11);
+                            continue;
+                        }
+                        strncat(temp,&filename[i],1);
+                        continue;
+                    }
                     
+                    if(flag>0)
+                    {
+                        if(filename[i]==s2[0])
+                        {
+                            flag--;
+                            count2=2;
+                            fprintf(fptr, " tahun\n\n");
+                            strcpy(temp,empty);
+                            continue;
+          			    }
+                        fprintf(fptr,"%c",filename[i]);
+                        continue;
+                    }
+                    if(filename[i]==s3[0] && filename[i+1] == s3[1])
+                    {
+          			    fprintf(fptr, " tahun\n\n");
+          			    break;
+          		    }
+                    fprintf(fptr,"%c", filename[i]);
                 }
+                
             } else
             {
                 ((wait(&status)) > 0);
+                pid6 = fork();
+                if (pid6 == 0)
+                {
+                    char argv*[]= {"rm", movefl, NULL}
+                }
             }
-            
-            
+            strcpy(path,Path);
+            strcpy(path,"/");
+            strcat(path,dp->d_name);
+            listFilesRecursively(path);
+
         }
   }	 
  
