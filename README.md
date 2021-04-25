@@ -77,3 +77,31 @@ pid2 = fork();
 ```
 
 
+# 2b
+Diminta untuk membuat folder untuk mengkategorikan setiap hewan. Untuk melakukan hal tersebut dipanggil fungsi `listFilesRecursively("/home/ezhie/modul2/petshop")` untuk melanjutkan program yang sedang berjalan untuk soal-soal berikutnya.
+
+
+Memakai `struct dirent` dan `while ((dp = readdir(dir)) != NULL)` agar travers file dapat berjalan terus. Program akan mengambil string dari nama file hingga bertemu tanda ";" pertama, lalu lakukan mkdir agar membuat folder sesuai dengan jenis hewannya.
+
+```
+while ((dp=readdir(dir)) !=NULL){
+	if(strcmp(dp->d_name,".") != 0 && strcmp(dp->d_name,"..") != 0)
+    {
+    
+  	    //2b
+        char token[100]= "";
+        strcpy(token,dp->d_name);
+        char pfolder[100] = "/home/ezhie/modul2/petshop/";
+        strtok(token,";");
+        strcat(pfolder,token);
+        pid3 = fork();
+        if(pid3 == 0){
+            char *argv3[] = {"mkdir","-p",pfolder,NULL};
+            execv("/usr/bin/mkdir",argv3);
+        }
+        else{
+            ((wait(&status))>0);
+        }   
+        ...
+```
+
