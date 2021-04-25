@@ -8,18 +8,24 @@
 
 char location[] = "/home/ezhie/modul2/petshop";
 int status;
-char keterangan[100];
+char keterangan[100] = "";
+char empty[1] = "";
 
 
 void listFilesRecursively(char *Path){
   char path[1000];
-  pid_t pid3, pid4, pid5, pid6;
+  pid_t pid3, pid4, pid5, pid6, pid7, pid8, pid9;
+  const char *delimiter = "_";
   DIR *dir = opendir(Path);
   struct dirent *dp;
-  File *pointer
+  FILE *pointer;
  
-  if(!dir) return;
- 
+  if(!dir) 
+  {
+      return;
+  }
+
+
   while ((dp=readdir(dir)) !=NULL){
 	if(strcmp(dp->d_name,".") != 0 && strcmp(dp->d_name,"..") != 0)
     {
@@ -39,175 +45,219 @@ void listFilesRecursively(char *Path){
             ((wait(&status))>0);
         }   
         
-        //2c
-        char newfile[100] = "/home/ezhie/modul2/petshop/";
-        char movefl[100] = "/home/ezhie/modul2/petshop/";
-        strcat(movefl, dp->d_name);
-        char filename[50] = "";
-        strcpy(filename, dp->d_name);
-        char s1[1]=";";
-        char s2[1]="_";
-        char s3[1]=".j";
-
-        pid4 = fork();
-
-        if(!(strstr(dp->d_name, deli2)))
-        {
+        //2C
             
-            if (pid4 == 0)
+            char mfolder[100] = "/home/ezhie/modul2/petshop/";
+            strcat(mfolder, dp->d_name);
+            char petfile[100] = "";
+            strcpy(petfile, dp->d_name);
+ 
+            
+            char a[1] = ";";
+            char b[1] = "_";
+            char c[2] = ".j";
+            if (!(strstr(dp->d_name, delimiter)))
             {
-                char *argv[] = {"mv", "-f", movefl, filename, NULL};
-                char name[] = "";
-                execv("/bin/mv", argv);
-                strcpy(keterangan, newFile);
-                strcat(keterangan, "keterangan.txt");
-                fptr = fopen(keterangan, "a");
-                int count = 2;
-                for (int i = 1; i < 50; i++)
+                pid4 = fork();
+                if (pid4 == 0)
                 {
-                    if (count == 2)
-                    {
-                        if (filename[i]==s1[0])
-                        {
-                            count--;
-                            fprintf(fptr, "nama : ");
-                        }
-                        continue;
-                    }
-                    
-                    if (count == 1)
-                    {
-                        if (filename[i]==s1[0])
-                        {
-                            count--;
-                            fprintf(fptr, "\numur : ");
-                        }
-                        fprintf(fptr,"%c", filename[i]);
-                        strncat(name,&filename[i],1);
-                        continue;
-                    }
-                    if(filename[i]==s3[0] && filename[i+1]==s3[1])
-                    {
-                        fprintf(fptr, " tahun\n\n");
-                        break;	
-                    }
-                    fprintf(fptr, "%c", filename[i]);
-
+                    char *argv4[] = {"mv", "-f", mfolder, pfolder, NULL};
+                    execv("/usr/bin/mv", argv4);
                 }
                 else
                 {
-                    ((wait(&status))>0);
-                    pid5 = fork();
-                    strcpy(rename,newfile);
-                    strcat(rename,"/");
-                    strcat(rename,name);
-                    strcat(rename,".jpg");
-                    strcat(newfile,"/");
-                    strcat(newfile, dp->d_name);
-                    if (pid5 == 0)
-                    {
-                        char *argv[] = {"mv",newfile,rename,NULL};
-                        execv("/bin/mv", argv);
-                    }
+                    ((wait(&status)) > 0);
                 }
-            
-        }
-        else
-        {
-            char copy[100] = "";
-            char temp[10] = "";
-            int flag = 1;
-
-            int count2 = 2;
-            pid5 = fork();
-            
-            if (pid5 == 0)
+                
+                //2e
+                char nama_pemilik[] = "";
+                strcpy(keterangan, pfolder);
+                strcat(keterangan, "/keterangan.txt");
+                int check = 2;
+                pointer = fopen(keterangan, "a");
+                for (int i = 0; i < 50; i++)
+                {
+                    if (check == 2)
+                    {
+                        if (petfile[i] == a[0])
+                        {
+                            check -= 1;
+                            fprintf(pointer, "nama : ");
+                        }
+                        continue;
+                    }
+ 
+                    if (check == 1)
+                    {
+                        if (petfile[i] == a[0])
+                        {
+                            check -= 1;
+                            fprintf(pointer, "\numur : ");
+                            continue;
+                        }
+                        fprintf(pointer, "%c", petfile[i]);
+                        strncat(nama_pemilik, &petfile[i], 1);
+                        continue;
+                    }
+ 
+                    if (petfile[i] == c[0] && petfile[i + 1] == c[1])
+                    {
+                        fprintf(pointer, " tahun\n\n");
+                        break;
+                    }
+                    fprintf(pointer, "%c", petfile[i]);
+                }
+ 
+                char rm[100] = "";
+                strcpy(rm, pfolder);
+                strcat(rm, "/");
+                strcat(rm, nama_pemilik);
+                strcat(rm, ".jpg");
+                strcat(pfolder, "/");
+                strcat(pfolder, dp->d_name);
+ 
+                pid5 = fork();
+                if (pid5 == 0)
+                {
+                    char *argv5[] = {"mv", pfolder, rm, NULL};
+                    execv("/usr/bin/mv", argv5);
+                }
+                else
+                {
+                    ((wait(&status)) > 0);
+                }
+            }
+ 
+            else
             {
-                for(i = 0; i < 50; i++)
+                char copyfile[100] = "";
+                char temp[10] = "";
+                int j;
+                int counter = 1;
+                int count2 = 2;
+                for (j = 0; j < 100; j++)
                 {
                     if (count2 == 2)
                     {
-                        if (filename[i]==s1[0])
+                        if (petfile[j] == a[0])
                         {
                             count2--;
-                            strcpy(cpyfile,locto);
-                            strcat(cpyfile,"/");
-                            strcat(cpyfile,temp);
-                            char *argv6[] = {"mkdir","-p", cpyfile, NULL};
-                            execv("/bin/mkdir", argv6);
-                            char *argv7[] = {"cp", movefl, cpyfile, NULL};
-                            execv("/bin/cp", argv7);
-                            char buatketerangan[50]="";
-                            strcpy(buatketerangan,cpyfile);
-                            strcat(buatketerangan,"/keterangan.txt");
-                            fptr = fopen(buatketerangan,"a");
-                            strcpy(temp,empty);
+                            strcpy(copyfile, location);
+                            strcat(copyfile, "/");
+                            strcat(copyfile, temp);
+ 
+                            pid6 = fork();
+                            if (pid6 == 0)
+                            {
+                                char *argv6[] = {"mkdir", "-p", copyfile, NULL};
+                                execv("/usr/bin/mkdir", argv6);
+                            }
+                            else
+                            {
+                                ((wait(&status)) > 0);
+                            }
+                            
+                            pid7 = fork();
+                            //Now copy file
+                            if (pid7 == 0)
+                            {
+                                char *argv7[] = {"cp", mfolder, copyfile, NULL};
+                                execv("/usr/bin/cp", argv7);
+                            }
+                            else
+                            {
+                                ((wait(&status)) > 0);
+                            }
+ 
+                            char keterangan_new[100] = "";
+                            strcpy(keterangan_new, copyfile);
+                            strcat(keterangan_new, "/keterangan.txt");
+ 
+                            pointer = fopen(keterangan_new, "a");
+                            strcpy(temp, empty);
                             continue;
                         }
-                        strcat(temp, &filename[i], 1);
+                        strncat(temp, &petfile[j], 1);
                         continue;
-
                     }
+ 
                     if (count2 == 1)
                     {
-                        if(filename[i]==s1[0]){
+                        if (petfile[j] == a[0])
+                        {
                             count2--;
-                            fprintf(fptr,"nama : %s\numur : ",temp);
-                            char rename2[100] = "";
-                            strcpy(rename2, cpyfile);
-                            strcat(rename2,"/");
-                            char now[100] = "";
-                            strcpy(now,rename2);
-                            strcat(rename2,temp);
-                            strcat(rename2, ".jpg");
-                            strcat(now,dp->d_name);
-                            char *argv11[] = {"mv", now, rename2, NULL};
-                            my_system("/bin/mv", argv11);
+                            fprintf(pointer, "nama : %s\numur : ", temp);
+                            char rm2[100] = "";
+                            strcpy(rm2, copyfile);
+                            strcat(rm2, "/");
+                            char new[100] = "";
+                            strcpy(new, rm2);
+                            strcat(rm2, temp);
+                            strcat(rm2, ".jpg");
+                            strcat(new, dp->d_name);
+ 
+ 			            pid8 = fork();
+                            //Move to the right folder
+                            if (pid8 == 0)
+                            {
+                                char *argv8[] = {"mv", new, rm2, NULL};
+                                execv("/usr/bin/mv", argv8);
+                            }
+                            else
+                            {
+                                ((wait(&status)) > 0);
+                            }
                             continue;
                         }
-                        strncat(temp,&filename[i],1);
+                        strncat(temp, &petfile[j], 1);
                         continue;
                     }
-                    
-                    if(flag>0)
+ 
+                    if (counter > 0)
                     {
-                        if(filename[i]==s2[0])
+                        if (petfile[j] == b[0])
                         {
-                            flag--;
-                            count2=2;
-                            fprintf(fptr, " tahun\n\n");
-                            strcpy(temp,empty);
+                            counter--;
+                            count2 = 2;
+                            fprintf(pointer, " tahun\n\n");
+ 
+                            //Clear string
+                            strcpy(temp, empty);
                             continue;
-          			    }
-                        fprintf(fptr,"%c",filename[i]);
+                        }
+                        fprintf(pointer, "%c", petfile[j]);
                         continue;
                     }
-                    if(filename[i]==s3[0] && filename[i+1] == s3[1])
+ 
+                    if (petfile[j] == c[0] && petfile[j + 1] == c[1])
                     {
-          			    fprintf(fptr, " tahun\n\n");
-          			    break;
-          		    }
-                    fprintf(fptr,"%c", filename[i]);
+                        fprintf(pointer, " tahun\n\n");
+                        break;
+                    }
+ 
+                    fprintf(pointer, "%c", petfile[j]);
                 }
-                
-            } else
-            {
-                ((wait(&status)) > 0);
-                pid6 = fork();
-                if (pid6 == 0)
+ 
+ 		        pid9 = fork();
+                if (pid9 == 0)
                 {
-                    char argv*[]= {"rm", movefl, NULL}
+                    char *argv9[] = {"rm", mfolder, NULL};
+                    execv("/usr/bin/rm", argv9);
+                }
+                else
+                {
+                    ((wait(&status)) > 0);
                 }
             }
-            strcpy(path,Path);
-            strcpy(path,"/");
-            strcat(path,dp->d_name);
-            listFilesRecursively(path);
-
-        }
-  }	 
+            strcpy(path, Path);
+            strcpy(path, "/");
+            strcat(path, dp->d_name);
  
-  closedir(dir);  
+            listFilesRecursively(path);
+        }
+    }
+ 
+    closedir(dir);
 } 	 
 
 
